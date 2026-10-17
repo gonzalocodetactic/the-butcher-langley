@@ -8,7 +8,7 @@ import type { BlockOf, RenderContext } from './types'
 const RECAPTCHA_SITE_KEY =
   process.env.RECAPTCHA_SITE_KEY || '6Lf4GNUnAAAAAD-o2_zos9yX3mtwBLkkvbeb1rUn'
 
-// The form's fields are fixed (Webflow form markup, submitted by webflow.js for now).
+// The form's fields are fixed (Webflow form markup, sent to /api/contact by public/wf/js/contact-form.js).
 const field = (label: string, name: string, dataName: string, type: string, required = true) =>
   `<label for="${name}" class="label">${label}</label><input class="input w-input" maxlength="256" name="${name}" data-name="${dataName}" placeholder="" type="${type}" id="${name}"${required ? ' required=""' : ''}>`
 

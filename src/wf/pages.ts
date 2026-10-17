@@ -8,6 +8,8 @@ const WEBFONT = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js
 const RECAPTCHA = 'https://www.google.com/recaptcha/api.js'
 export const JQUERY = `https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=${WF_SITE_ID}`
 const WEBFLOW = '/wf/js/webflow.js'
+// Not in the export: sends the contact form to /api/contact (see the file).
+const CONTACT_FORM = '/wf/js/contact-form.js'
 const PURECOUNTER = 'https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js'
 
 type WfPage = {
@@ -17,9 +19,9 @@ type WfPage = {
   init?: string
 }
 
-const withCounters = [WEBFONT, RECAPTCHA, JQUERY, WEBFLOW, PURECOUNTER]
-const counterFirst = [WEBFONT, RECAPTCHA, PURECOUNTER, JQUERY, WEBFLOW]
-const plain = [WEBFONT, RECAPTCHA, JQUERY, WEBFLOW]
+const withCounters = [WEBFONT, RECAPTCHA, JQUERY, WEBFLOW, PURECOUNTER, CONTACT_FORM]
+const counterFirst = [WEBFONT, RECAPTCHA, PURECOUNTER, JQUERY, WEBFLOW, CONTACT_FORM]
+const plain = [WEBFONT, RECAPTCHA, JQUERY, WEBFLOW, CONTACT_FORM]
 const counters = '/wf/js/init-counters.js'
 
 export const wfPages: Record<string, WfPage> = {
