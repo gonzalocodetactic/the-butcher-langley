@@ -12,6 +12,10 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { FormSubmissions } from './collections/FormSubmissions'
+import { ContactDetails } from './globals/ContactDetails'
+import { Footer } from './globals/Footer'
+import { MeatCutting } from './globals/MeatCutting'
+import { Navigation } from './globals/Navigation'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,6 +28,7 @@ export default buildConfig({
     },
   },
   collections: [Pages, Media, FormSubmissions, Users],
+  globals: [Navigation, Footer, ContactDetails, MeatCutting],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

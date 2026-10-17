@@ -91,8 +91,18 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    navigation: Navigation;
+    footer: Footer;
+    'contact-details': ContactDetail;
+    'meat-cutting': MeatCutting;
+  };
+  globalsSelect: {
+    navigation: NavigationSelect<false> | NavigationSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
+    'contact-details': ContactDetailsSelect<false> | ContactDetailsSelect<true>;
+    'meat-cutting': MeatCuttingSelect<false> | MeatCuttingSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -396,6 +406,321 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation".
+ */
+export interface Navigation {
+  id: number;
+  logo?: (number | null) | Media;
+  desktopLeft?:
+    | {
+        type?: ('link' | 'dropdown') | null;
+        label: string;
+        url?: string | null;
+        links?:
+          | {
+              label: string;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  desktopRight?:
+    | {
+        type?: ('link' | 'dropdown') | null;
+        label: string;
+        url?: string | null;
+        links?:
+          | {
+              label: string;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  mobileLinks?:
+    | {
+        label: string;
+        /**
+         * Site path like /contact, or a full https:// address
+         */
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  logo?: (number | null) | Media;
+  contactHeading?: string | null;
+  columns?:
+    | {
+        heading: string;
+        /**
+         * Leave empty to use the same heading
+         */
+        homeHeading?: string | null;
+        links?:
+          | {
+              label: string;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  copyright?: string | null;
+  credit?: {
+    label?: string | null;
+    /**
+     * Site path like /contact, or a full https:// address
+     */
+    url?: string | null;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-details".
+ */
+export interface ContactDetail {
+  id: number;
+  /**
+   * One line per row, as shown on the site
+   */
+  address?: string | null;
+  /**
+   * As displayed, e.g. (778) 705 - 1046
+   */
+  phone?: string | null;
+  /**
+   * Dialable number, e.g. +17787051046
+   */
+  phoneLink?: string | null;
+  email?: string | null;
+  hours?: {
+    /**
+     * e.g. 10am - 6pm
+     */
+    times?: string | null;
+    /**
+     * Shown in bold, e.g. 7 days a week
+     */
+    days?: string | null;
+  };
+  facebookUrl?: string | null;
+  instagramUrl?: string | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "meat-cutting".
+ */
+export interface MeatCutting {
+  id: number;
+  feature?: {
+    image?: (number | null) | Media;
+    number?: string | null;
+    label?: string | null;
+  };
+  subtitle?: string | null;
+  title?: string | null;
+  backgroundText?: string | null;
+  text?: string | null;
+  stats?:
+    | {
+        number?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  callButton?: {
+    label?: string | null;
+    /**
+     * Site path like /contact, or a full https:// address
+     */
+    url?: string | null;
+  };
+  inquiryButton?: {
+    label?: string | null;
+    /**
+     * Site path like /contact, or a full https:// address
+     */
+    url?: string | null;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation_select".
+ */
+export interface NavigationSelect<T extends boolean = true> {
+  logo?: T;
+  desktopLeft?:
+    | T
+    | {
+        type?: T;
+        label?: T;
+        url?: T;
+        links?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  desktopRight?:
+    | T
+    | {
+        type?: T;
+        label?: T;
+        url?: T;
+        links?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  mobileLinks?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        id?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  logo?: T;
+  contactHeading?: T;
+  columns?:
+    | T
+    | {
+        heading?: T;
+        homeHeading?: T;
+        links?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  copyright?: T;
+  credit?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-details_select".
+ */
+export interface ContactDetailsSelect<T extends boolean = true> {
+  address?: T;
+  phone?: T;
+  phoneLink?: T;
+  email?: T;
+  hours?:
+    | T
+    | {
+        times?: T;
+        days?: T;
+      };
+  facebookUrl?: T;
+  instagramUrl?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "meat-cutting_select".
+ */
+export interface MeatCuttingSelect<T extends boolean = true> {
+  feature?:
+    | T
+    | {
+        image?: T;
+        number?: T;
+        label?: T;
+      };
+  subtitle?: T;
+  title?: T;
+  backgroundText?: T;
+  text?: T;
+  stats?:
+    | T
+    | {
+        number?: T;
+        label?: T;
+        id?: T;
+      };
+  callButton?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+      };
+  inquiryButton?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
