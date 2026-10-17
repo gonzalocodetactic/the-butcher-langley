@@ -46,7 +46,7 @@ export const priceCard = (
 ) => {
   const sizes = placed
     ? '(max-width: 479px) 100vw, (max-width: 1439px) 49vw, 50vw'
-    : '(max-width: 479px) 100vw, (max-width: 767px) 89vw, (max-width: 991px) 94vw, 1200px'
+    : '(max-width: 479px) 100vw, (max-width: 767px) 87vw, (max-width: 991px) 622.5px, (max-width: 1279px) 61vw, 622.5px'
   const id = placed && priceCardIds[i] ? ` id="${priceCardIds[i]}"` : ''
   const rows = (card.rows ?? [])
     .map(

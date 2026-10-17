@@ -26,7 +26,8 @@ export const mediaImg = (
     'data-w-id': dataWId,
     sizes: sizes && mediaSrcset(media) ? sizes : undefined,
     alt: mediaAlt(media),
-    srcset: mediaSrcset(media),
+    // Without a size hint the browser assumes 100vw and would stretch the image.
+    srcset: sizes ? mediaSrcset(media) : undefined,
     class: className,
   })
 

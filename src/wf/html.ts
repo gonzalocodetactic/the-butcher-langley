@@ -51,11 +51,16 @@ export const link = (
 export const mediaSrcset = (media: MediaRef): string | undefined => {
   if (!media || typeof media !== 'object') return undefined
   const copies = Object.values(media.sizes ?? {}).filter(
-    (size): size is { url: string; width: number } => !!size?.url && !!size.width,
+    (size): size is { url: string; width: number } =>
+      // Copies as wide as the original add nothing; the original is listed below.
+      !!size?.url && !!size.width && (!media.width || size.width < media.width),
   )
   if (!copies.length) return undefined
   if (media.url && media.width) copies.push({ url: media.url, width: media.width })
-  return copies
+  // Small images get the same copy for every size; list each file once.
+  const unique = [...new Map(copies.map((size) => [size.url, size])).values()]
+  if (unique.length < 2) return undefined
+  return unique
     .sort((a, b) => a.width - b.width)
     .map((size) => `${size.url} ${size.width}w`)
     .join(', ')
