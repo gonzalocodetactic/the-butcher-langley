@@ -1,5 +1,5 @@
 // Markup pieces repeated across section blocks, as written in the Webflow export.
-import { esc, link, mediaAlt, mediaUrl, type MediaRef } from './html'
+import { esc, link, mediaAlt, mediaSrcset, mediaUrl, type MediaRef } from './html'
 
 // <img> with attributes in the export's order; undefined attributes are left out.
 export const img = (attrs: Record<string, string | undefined>) =>
@@ -12,9 +12,23 @@ export const img = (attrs: Record<string, string | undefined>) =>
 export const wfImg = (file: string, className?: string, id?: string) =>
   img({ src: `/wf/images/${file}`, loading: 'lazy', id, alt: '', class: className })
 
-// Image uploaded to the media library.
-export const mediaImg = (media: MediaRef, className?: string, id?: string) =>
-  img({ src: mediaUrl(media), loading: 'lazy', id, alt: mediaAlt(media), class: className })
+// Image uploaded to the media library. `sizes` is the slot's responsive size hint; with it
+// the browser picks among the resized copies Payload generated.
+export const mediaImg = (
+  media: MediaRef,
+  className?: string,
+  { id, sizes, dataWId }: { id?: string; sizes?: string; dataWId?: string } = {},
+) =>
+  img({
+    src: mediaUrl(media),
+    loading: 'lazy',
+    id,
+    'data-w-id': dataWId,
+    sizes: sizes && mediaSrcset(media) ? sizes : undefined,
+    alt: mediaAlt(media),
+    srcset: mediaSrcset(media),
+    class: className,
+  })
 
 export type Heading = {
   subtitle?: string | null
@@ -23,11 +37,15 @@ export type Heading = {
 }
 
 // Webflow "heading-wrap": small subtitle, title with underline image, large faded text.
-export const headingWrap = (heading: Heading | undefined, left = false) =>
+// `after` is markup placed at the end of the wrapper (e.g. a notice).
+export const headingWrap = (
+  heading: Heading | undefined,
+  { left = false, boldBack = false, after = '' } = {},
+) =>
   `<div class="heading-wrap${left ? ' left-align' : ''}">
 <div class="heading-subtitle">${esc(heading?.subtitle)}</div>
 <h3 class="heading3-title">${esc(heading?.title)}</h3>${wfImg('Path4.png', 'path4')}
-<div class="heading-textback">${esc(heading?.backgroundText)}</div>
+<div class="heading-textback">${boldBack ? `<strong>${esc(heading?.backgroundText)}</strong>` : esc(heading?.backgroundText)}</div>${after}
 </div>`
 
 type Button = { label?: string | null; url?: string | null } | undefined

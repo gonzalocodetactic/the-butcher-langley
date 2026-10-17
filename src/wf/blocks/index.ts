@@ -1,5 +1,18 @@
 // Section block renderers: each returns the block's markup as in the Webflow export.
 import type { BlockOf, RenderContext, Section } from './types'
+import { homeHero, homeIntro, homeMeatCuts } from './home'
+import { aboutCore, aboutIntro, aboutText, awards, farmSlaughterPromo } from './about'
+import { contactDetails, contactIntro, contactMap } from './contact'
+import { cuttingIntro, cuttingPrices, pricingGrid, processStep } from './cutting'
+import {
+  categoryIntro,
+  charcuterieOfferings,
+  detailPage,
+  mostViewed,
+  packCards,
+  subProducts,
+} from './products'
+import { specialsText, weeklySpecials } from './specials'
 import { communityTagline, internalHeader, meatCutting, sectionHeading } from './shared'
 
 type Renderers = {
@@ -11,6 +24,29 @@ const renderers: Renderers = {
   sectionHeading,
   communityTagline,
   meatCutting,
+  homeHero,
+  homeIntro,
+  homeMeatCuts,
+  aboutIntro,
+  aboutText,
+  aboutCore,
+  farmSlaughterPromo,
+  awards,
+  categoryIntro,
+  packCards,
+  subProducts,
+  charcuterieOfferings,
+  detailPage,
+  mostViewed,
+  cuttingIntro,
+  cuttingPrices,
+  pricingGrid,
+  processStep,
+  contactIntro,
+  contactDetails,
+  contactMap,
+  weeklySpecials,
+  specialsText,
 }
 
 export const renderSection = (section: Section, context: RenderContext): string => {

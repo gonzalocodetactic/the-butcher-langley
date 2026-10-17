@@ -1,4 +1,5 @@
-import type { MeatCutting, Page } from '@/payload-types'
+import type { Quirk } from '../quirks'
+import type { ContactDetail, MeatCutting, Page } from '@/payload-types'
 
 export type Section = NonNullable<Page['sections']>[number]
 export type BlockOf<T extends Section['blockType']> = Extract<Section, { blockType: T }>
@@ -7,4 +8,6 @@ export type BlockOf<T extends Section['blockType']> = Extract<Section, { blockTy
 export type RenderContext = {
   path: string
   meatCutting?: MeatCutting | null
+  contact?: ContactDetail | null
+  quirk?: Quirk
 }

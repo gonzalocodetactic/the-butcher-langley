@@ -7,6 +7,7 @@ import { LivePreviewListener } from '@/components/LivePreviewListener'
 import config from '@/payload.config'
 import type { ContactDetail, Footer, MeatCutting, Navigation } from '@/payload-types'
 import { renderSection, usesMeatCutting } from '@/wf/blocks'
+import { quirkFor } from '@/wf/quirks'
 import { footer, navbar, preloader } from '@/wf/shell'
 
 type Args = { params: Promise<{ slug?: string[] }> }
@@ -84,7 +85,9 @@ export default async function Page({ params }: Args) {
   const sections = page.sections ?? []
   const meatCutting = usesMeatCutting(sections) ? await getMeatCutting(draft) : null
   const sectionsHtml = sections
-    .map((section) => renderSection(section, { path, meatCutting }))
+    .map((section, i) =>
+      renderSection(section, { path, meatCutting, contact, quirk: quirkFor(path, i) }),
+    )
     .join('\n')
 
   // One wrapper with the whole page markup: React leaves its contents alone, so webflow.js

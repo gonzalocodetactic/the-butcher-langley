@@ -53,7 +53,7 @@ export const meatCutting = (
 <div class="column-8 w-col w-col-5 w-col-stack">
 <div class="meatcutting-imgfull">
 <div class="meatcut-data">
-<div class="countnumberhome">${mediaImg(data.feature?.image, undefined, node('79'))}
+<div class="countnumberhome">${mediaImg(data.feature?.image, undefined, { id: node('79') })}
 <div id="${node('7a')}" class="countnumber white">${esc(data.feature?.number)}</div>
 <div id="${node('7c')}" class="countdescriphome white">${esc(data.feature?.label)}</div>
 </div>
@@ -61,7 +61,7 @@ export const meatCutting = (
 </div>
 </div>
 <div class="meatcut-col w-col w-col-7 w-col-stack">
-${headingWrap(data, true)}
+${headingWrap(data, { left: true })}
 <p class="paragraph">${esc(data.text)}</p>
 <div class="w-layout-grid meatcutting-grid">
 ${stats}

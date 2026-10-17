@@ -18,5 +18,14 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  // Resized copies with the widths Webflow made, so pages can offer phones smaller files.
+  upload: {
+    imageSizes: [500, 800, 1080, 1600].map((width) => ({
+      name: `w${width}`,
+      width,
+      // Pictures narrower than this keep their size instead of being stretched.
+      withoutEnlargement: true,
+    })),
+    adminThumbnail: 'w500',
+  },
 }
