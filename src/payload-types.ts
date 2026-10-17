@@ -944,6 +944,7 @@ export interface FormSubmission {
  */
 export interface User {
   id: number;
+  role: 'superAdmin' | 'client';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1677,6 +1678,7 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
