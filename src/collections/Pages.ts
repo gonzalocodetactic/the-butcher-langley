@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
-// One document per site URL. Sections are added as blocks in later sub-steps.
+// One document per site URL. A sections blocks field is added with the first block type
+// (an empty blocks field breaks the admin edit view).
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
@@ -34,11 +35,6 @@ export const Pages: CollectionConfig = {
         typeof value === 'string' && /^\/([a-z0-9-]+(\/[a-z0-9-]+)*)?$/.test(value)
           ? true
           : 'Use lowercase letters, numbers and hyphens, starting with / and no trailing slash.',
-    },
-    {
-      name: 'sections',
-      type: 'blocks',
-      blocks: [],
     },
   ],
 }

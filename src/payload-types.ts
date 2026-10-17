@@ -130,7 +130,6 @@ export interface Page {
    * URL of the page, same as the Webflow site. Examples: / and /custom-cutting/beef-cutting
    */
   path: string;
-  sections?: unknown[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -273,7 +272,6 @@ export interface PayloadMigration {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   path?: T;
-  sections?: T | {};
   meta?:
     | T
     | {
