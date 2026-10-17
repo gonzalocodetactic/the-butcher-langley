@@ -2,15 +2,13 @@
 // Webflow export (same classes, attributes and data-w-id values) and filled from globals.
 import type { ContactDetail, Footer, Navigation } from '@/payload-types'
 
-import { esc, lines, link, mediaAlt, mediaUrl } from './html'
-
-const img = (src: string, className: string, alt = '') =>
-  `<img src="${esc(src)}" loading="lazy" alt="${esc(alt)}" class="${className}">`
+import { esc, lines, link } from './html'
+import { mediaImg, wfImg } from './parts'
 
 // The two halves of the logo are animated separately, so they stay fixed in the template.
 export const preloader = () =>
-  `<div class="preloader">${img('/wf/images/Logo-TheButcherLangley-part1-01.svg', 'brand-preloader _1')}${img(
-    '/wf/images/Logo-TheButcherLangley-part2-01.svg',
+  `<div class="preloader">${wfImg('Logo-TheButcherLangley-part1-01.svg', 'brand-preloader _1')}${wfImg(
+    'Logo-TheButcherLangley-part2-01.svg',
     'brand-preloader _2',
   )}</div>`
 
@@ -33,7 +31,7 @@ ${links}
 }
 
 export const navbar = (nav: Navigation, path: string) => {
-  const logo = img(mediaUrl(nav.logo), 'logo', mediaAlt(nav.logo))
+  const logo = mediaImg(nav.logo, 'logo')
   const items = (list: Navigation['desktopLeft']) =>
     (list ?? []).map((item) => desktopItem(item, path)).join('\n')
   const mobile = (nav.mobileLinks ?? [])
@@ -61,13 +59,13 @@ ${items(nav.desktopRight)}
 </div>`
 }
 
-const contactRow = (icon: string, text: string) => `<div class="infofoot">${img(`/wf/images/${icon}`, 'image')}
+const contactRow = (icon: string, text: string) => `<div class="infofoot">${wfImg(icon, 'image')}
 <div class="infofootlink">${text}</div>
 </div>`
 
 const social = (url: string | null | undefined, icon: string) =>
   url
-    ? `<a href="${esc(url)}" target="_blank" class="linksocial w-inline-block"><img src="/wf/images/${icon}" loading="lazy" alt=""></a>`
+    ? `<a href="${esc(url)}" target="_blank" class="linksocial w-inline-block">${wfImg(icon)}</a>`
     : ''
 
 // Webflow's footer columns are column-4 to column-7; the first one holds contact details.
@@ -96,7 +94,7 @@ ${links}
 <div class="container">
 <div data-w-id="bc5f98f6-1a98-1e8b-8a1c-61662526f0fb" class="columns-footer w-row">
 <div class="column-4 w-col w-col-3 w-col-stack">
-<div class="contlogofoot">${img(mediaUrl(data.logo), 'logofooter', mediaAlt(data.logo))}</div>
+<div class="contlogofoot">${mediaImg(data.logo, 'logofooter')}</div>
 <div class="hr-footer"></div>
 <h6 class="heading6">${esc(data.contactHeading)}</h6>
 ${contactRow('Mapicon.png', lines(contact.address))}

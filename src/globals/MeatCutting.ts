@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
 import { editors, publicRead } from '../access/roles'
+import { revalidateSite } from '../hooks/revalidateSite'
 import { linkFields } from '../fields/link'
 
 // The "Meat Cutting" callout, identical on every page that shows it.
@@ -10,6 +11,7 @@ export const MeatCutting: GlobalConfig = {
   admin: { group: 'Site-wide' },
   access: { read: publicRead, update: editors },
   versions: { drafts: true },
+  hooks: { afterChange: [revalidateSite] },
   fields: [
     {
       name: 'feature',

@@ -5,7 +5,8 @@ import { getPayload } from 'payload'
 
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import config from '@/payload.config'
-import type { ContactDetail, Footer, Navigation } from '@/payload-types'
+import type { ContactDetail, Footer, MeatCutting, Navigation } from '@/payload-types'
+import { renderSection, usesMeatCutting } from '@/wf/blocks'
 import { footer, navbar, preloader } from '@/wf/shell'
 
 type Args = { params: Promise<{ slug?: string[] }> }
@@ -35,6 +36,17 @@ async function getGlobals(draft: boolean) {
     get('contact-details'),
   ])
   return { nav: nav as Navigation, foot: foot as Footer, contact: contact as ContactDetail }
+}
+
+async function getMeatCutting(draft: boolean) {
+  const payload = await getPayload({ config })
+  const data = await payload.findGlobal({
+    slug: 'meat-cutting',
+    draft,
+    overrideAccess: draft,
+    depth: 1,
+  })
+  return data as MeatCutting
 }
 
 // Published pages are pre-rendered at build time and refreshed on publish.
@@ -69,15 +81,17 @@ export default async function Page({ params }: Args) {
   const page = await getPage(path, draft)
   if (!page) notFound()
   const { nav, foot, contact } = await getGlobals(draft)
-
-  // Section templates are added in Step 7.2; until then each section is a marker comment.
-  const sections = (page.sections ?? [])
-    .map((section) => `<!-- section: ${section.blockType} -->`)
+  const sections = page.sections ?? []
+  const meatCutting = usesMeatCutting(sections) ? await getMeatCutting(draft) : null
+  const sectionsHtml = sections
+    .map((section) => renderSection(section, { path, meatCutting }))
     .join('\n')
 
   // One wrapper with the whole page markup: React leaves its contents alone, so webflow.js
   // can manage the DOM. display: contents keeps the wrapper out of the layout.
-  const body = [preloader(), navbar(nav, path), sections, footer(foot, contact, path)].join('\n')
+  const body = [preloader(), navbar(nav, path), sectionsHtml, footer(foot, contact, path)].join(
+    '\n',
+  )
 
   return (
     <>

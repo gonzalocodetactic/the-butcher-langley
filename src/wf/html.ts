@@ -12,7 +12,7 @@ export const esc = (value: unknown): string =>
 export const lines = (value?: string | null): string =>
   (value ?? '').split('\n').map(esc).join('<br>')
 
-type MediaRef = { url?: string | null; alt?: string | null } | number | null | undefined
+export type MediaRef = { url?: string | null; alt?: string | null } | number | null | undefined
 
 export const mediaUrl = (media: MediaRef): string =>
   media && typeof media === 'object' ? (media.url ?? '') : ''
