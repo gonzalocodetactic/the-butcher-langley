@@ -3,7 +3,10 @@ import { esc, lines } from '../html'
 import { btnSecondary, headingWrap } from '../parts'
 import type { BlockOf, RenderContext } from './types'
 
-const RECAPTCHA_SITE_KEY = '6Lf4GNUnAAAAAD-o2_zos9yX3mtwBLkkvbeb1rUn'
+// Public key; its secret (RECAPTCHA_SECRET_KEY) is checked in app/(frontend)/api/contact.
+// Falls back to the key from the Webflow export.
+const RECAPTCHA_SITE_KEY =
+  process.env.RECAPTCHA_SITE_KEY || '6Lf4GNUnAAAAAD-o2_zos9yX3mtwBLkkvbeb1rUn'
 
 // The form's fields are fixed (Webflow form markup, submitted by webflow.js for now).
 const field = (label: string, name: string, dataName: string, type: string, required = true) =>
