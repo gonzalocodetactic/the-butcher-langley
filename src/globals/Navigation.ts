@@ -1,6 +1,7 @@
 import type { Field, GlobalConfig } from 'payload'
 
 import { editors, publicRead } from '../access/roles'
+import { revalidateSite } from '../hooks/revalidateSite'
 import { linkFields } from '../fields/link'
 
 // Desktop menu item: a plain link, or a dropdown with its own links.
@@ -40,6 +41,7 @@ export const Navigation: GlobalConfig = {
   admin: { group: 'Site-wide' },
   access: { read: publicRead, update: editors },
   versions: { drafts: true },
+  hooks: { afterChange: [revalidateSite] },
   fields: [
     { name: 'logo', type: 'upload', relationTo: 'media' },
     desktopItems('desktopLeft', 'Desktop menu, left of logo'),

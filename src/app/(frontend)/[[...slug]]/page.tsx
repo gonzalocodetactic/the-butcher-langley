@@ -3,9 +3,10 @@ import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 
-import { pageBlocks } from '@/blocks'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import config from '@/payload.config'
+import type { ContactDetail, Footer, Navigation } from '@/payload-types'
+import { footer, navbar, preloader } from '@/wf/shell'
 
 type Args = { params: Promise<{ slug?: string[] }> }
 
@@ -22,6 +23,18 @@ async function getPage(path: string, draft: boolean) {
     depth: 1,
   })
   return result.docs[0] ?? null
+}
+
+async function getGlobals(draft: boolean) {
+  const payload = await getPayload({ config })
+  const get = (slug: 'navigation' | 'footer' | 'contact-details') =>
+    payload.findGlobal({ slug, draft, overrideAccess: draft, depth: 1 })
+  const [nav, foot, contact] = await Promise.all([
+    get('navigation'),
+    get('footer'),
+    get('contact-details'),
+  ])
+  return { nav: nav as Navigation, foot: foot as Footer, contact: contact as ContactDetail }
 }
 
 // Published pages are pre-rendered at build time and refreshed on publish.
@@ -41,33 +54,39 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const page = await getPage(toPath((await params).slug), draft)
   if (!page) return {}
   const image = typeof page.meta?.image === 'object' ? page.meta?.image?.url : undefined
+  const title = page.meta?.title || page.title
   return {
-    title: page.meta?.title || page.title,
+    title,
     description: page.meta?.description ?? undefined,
-    openGraph: image ? { images: [image] } : undefined,
+    openGraph: { title, images: image ? [image] : undefined },
+    twitter: { title },
   }
 }
 
-const blockLabels = Object.fromEntries(
-  pageBlocks.map((block) => [block.slug, block.labels?.singular ?? block.slug]),
-)
-
 export default async function Page({ params }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const page = await getPage(toPath((await params).slug), draft)
+  const path = toPath((await params).slug)
+  const page = await getPage(path, draft)
   if (!page) notFound()
+  const { nav, foot, contact } = await getGlobals(draft)
 
-  // Placeholder output until the section templates are built in Step 7.
+  // Section templates are added in Step 7.2; until then each section is a marker comment.
+  const sections = (page.sections ?? [])
+    .map((section) => `<!-- section: ${section.blockType} -->`)
+    .join('\n')
+
+  // One wrapper with the whole page markup: React leaves its contents alone, so webflow.js
+  // can manage the DOM. display: contents keeps the wrapper out of the layout.
+  const body = [preloader(), navbar(nav, path), sections, footer(foot, contact, path)].join('\n')
+
   return (
-    <article>
-      {draft && <LivePreviewListener />}
-      <h1>{page.title}</h1>
-      {page.sections?.map((section) => (
-        <section key={section.id} data-block={section.blockType}>
-          <h2>{String(blockLabels[section.blockType])}</h2>
-          <pre>{JSON.stringify(section, null, 2)}</pre>
-        </section>
-      ))}
-    </article>
+    <>
+      {draft && <LivePreviewListener markup={body} />}
+      <div
+        style={{ display: 'contents' }}
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: body }}
+      />
+    </>
   )
 }

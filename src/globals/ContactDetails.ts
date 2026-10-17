@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
 import { editors, publicRead } from '../access/roles'
+import { revalidateSite } from '../hooks/revalidateSite'
 
 // Shared by the footer, the contact page and any block that shows contact info.
 export const ContactDetails: GlobalConfig = {
@@ -8,6 +9,7 @@ export const ContactDetails: GlobalConfig = {
   admin: { group: 'Site-wide' },
   access: { read: publicRead, update: editors },
   versions: { drafts: true },
+  hooks: { afterChange: [revalidateSite] },
   fields: [
     {
       name: 'address',

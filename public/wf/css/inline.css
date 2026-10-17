@@ -1,0 +1,35 @@
+
+  /*
+  .tablink.w--current > .imgtab,
+  .tablink:hover> .imgtab{
+  	background:#a30c05;
+    border-radius:100px;
+     transition: 0.3s;
+  }*/
+  .imgtab {
+	margin-top: 0.5em !important;
+    -webkit-transition: all 300ms ease-in;
+    transition: all 300ms ease-in;
+  }
+  .tablink:hover > .imgtab,
+  .tablink.w--current > .imgtab {
+      -webkit-filter: invert(1);
+      filter: invert(1);
+      z-index: 2;
+      -webkit-transition: all 300ms ease-in;
+      transition: all 300ms ease-in;
+  }
+  .tablink:hover::before,
+  .tablink.w--current::before {
+      background: #c34c3a;
+      height: 60px;
+      width: 60px;
+      position: absolute;
+      z-index: 1;
+      display: block;
+      bottom: 1px;
+      content: "";
+      border-radius: 100px;
+     -webkit-transition: all 300ms ease-in;
+      transition: all 300ms ease-in;
+  }
