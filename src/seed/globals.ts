@@ -2,7 +2,7 @@
 // Run from the app folder: npx payload run src/seed/globals.ts
 // Images are read from WEBFLOW_IMAGES (default ../webflow-export/site/images).
 // Safe to re-run: globals are overwritten, images are reused by filename.
-// Email addresses are left empty on purpose (set manually in the admin).
+// The form-notification recipient is not set here; Gonzalo sets it manually (Step 9).
 import path from 'path'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -120,6 +120,7 @@ await payload.updateGlobal({
     address: 'Unit D115 8045 204th Street\nLangley, BC Canada',
     phone: '(778) 705 - 1046',
     phoneLink: '+17787051046',
+    email: 'thebutcherlangley@gmail.com',
     hours: { times: '10am - 6pm', days: '7 days a week' },
     facebookUrl: 'https://www.facebook.com',
     instagramUrl: 'https://www.instagram.com',
