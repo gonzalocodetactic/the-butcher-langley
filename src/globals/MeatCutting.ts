@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 
+import { editors, publicRead } from '../access/roles'
 import { linkFields } from '../fields/link'
 
 // The "Meat Cutting" callout, identical on every page that shows it.
@@ -7,7 +8,7 @@ export const MeatCutting: GlobalConfig = {
   slug: 'meat-cutting',
   label: 'Meat Cutting Callout',
   admin: { group: 'Site-wide' },
-  access: { read: () => true, update: ({ req }) => Boolean(req.user) },
+  access: { read: publicRead, update: editors },
   versions: { drafts: true },
   fields: [
     {

@@ -5,6 +5,7 @@ import type {
   CollectionConfig,
 } from 'payload'
 
+import { editors, isEditor, superAdminOnly } from '../access/roles'
 import { pageBlocks } from '../blocks'
 
 // Pages are served statically; refresh the cached copy when a published page changes.
@@ -56,8 +57,12 @@ export const Pages: CollectionConfig = {
     afterDelete: [revalidateAfterDelete],
   },
   access: {
-    // Public reads only see published versions; logged-in users see drafts.
-    read: ({ req }) => (req.user ? true : { _status: { equals: 'published' } }),
+    // Public reads only see published versions; editors see drafts.
+    read: ({ req }) => (isEditor(req.user) ? true : { _status: { equals: 'published' } }),
+    // Clients edit existing pages; adding or removing whole pages is Super Admin only.
+    create: superAdminOnly,
+    update: editors,
+    delete: superAdminOnly,
   },
   versions: {
     // Autosave keeps the live preview in step with the form while editing.

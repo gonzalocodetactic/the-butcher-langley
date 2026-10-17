@@ -1,12 +1,13 @@
 import type { GlobalConfig } from 'payload'
 
+import { editors, publicRead } from '../access/roles'
 import { linkFields } from '../fields/link'
 
 // Address, phone, email and social links come from the Contact Details global.
 export const Footer: GlobalConfig = {
   slug: 'footer',
   admin: { group: 'Site-wide' },
-  access: { read: () => true, update: ({ req }) => Boolean(req.user) },
+  access: { read: publicRead, update: editors },
   versions: { drafts: true },
   fields: [
     { name: 'logo', type: 'upload', relationTo: 'media' },

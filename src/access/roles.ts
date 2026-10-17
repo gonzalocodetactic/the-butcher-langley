@@ -11,6 +11,16 @@ export type Role = (typeof roles)[number]['value']
 export const isSuperAdmin = (user: unknown): boolean =>
   (user as { role?: Role | null } | null | undefined)?.role === 'superAdmin'
 
+// Both roles edit site content; a user without a known role gets nothing.
+export const isEditor = (user: unknown): boolean => {
+  const role = (user as { role?: Role | null } | null | undefined)?.role
+  return role === 'superAdmin' || role === 'client'
+}
+
+export const editors: Access = ({ req }) => isEditor(req.user)
+
+export const publicRead: Access = () => true
+
 export const superAdminOnly: Access = ({ req }) => isSuperAdmin(req.user)
 
 export const superAdminOnlyField: FieldAccess = ({ req }) => isSuperAdmin(req.user)

@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { editors, superAdminOnly } from '../access/roles'
+
 // Contact form entries. Fields match the Webflow contact form.
 // Submissions are created server-side in Step 9 (local API bypasses access control).
 export const FormSubmissions: CollectionConfig = {
@@ -11,9 +13,9 @@ export const FormSubmissions: CollectionConfig = {
   defaultSort: '-createdAt',
   access: {
     create: () => false,
-    read: ({ req }) => Boolean(req.user),
+    read: editors,
     update: () => false,
-    delete: ({ req }) => Boolean(req.user),
+    delete: superAdminOnly,
   },
   fields: [
     { name: 'firstName', label: 'First Name', type: 'text', required: true },

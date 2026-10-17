@@ -1,10 +1,12 @@
 import type { GlobalConfig } from 'payload'
 
+import { editors, publicRead } from '../access/roles'
+
 // Shared by the footer, the contact page and any block that shows contact info.
 export const ContactDetails: GlobalConfig = {
   slug: 'contact-details',
   admin: { group: 'Site-wide' },
-  access: { read: () => true, update: ({ req }) => Boolean(req.user) },
+  access: { read: publicRead, update: editors },
   versions: { drafts: true },
   fields: [
     {

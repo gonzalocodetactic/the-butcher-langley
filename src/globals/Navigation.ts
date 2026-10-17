@@ -1,5 +1,6 @@
 import type { Field, GlobalConfig } from 'payload'
 
+import { editors, publicRead } from '../access/roles'
 import { linkFields } from '../fields/link'
 
 // Desktop menu item: a plain link, or a dropdown with its own links.
@@ -37,7 +38,7 @@ const desktopItems = (name: string, label: string): Field => ({
 export const Navigation: GlobalConfig = {
   slug: 'navigation',
   admin: { group: 'Site-wide' },
-  access: { read: () => true, update: ({ req }) => Boolean(req.user) },
+  access: { read: publicRead, update: editors },
   versions: { drafts: true },
   fields: [
     { name: 'logo', type: 'upload', relationTo: 'media' },

@@ -1,6 +1,13 @@
 import type { CollectionConfig } from 'payload'
 
-import { isSuperAdmin, roles, superAdminOnly, superAdminOnlyField, superAdminOrSelf } from '../access/roles'
+import {
+  isEditor,
+  isSuperAdmin,
+  roles,
+  superAdminOnly,
+  superAdminOnlyField,
+  superAdminOrSelf,
+} from '../access/roles'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -12,6 +19,8 @@ export const Users: CollectionConfig = {
   },
   auth: true,
   access: {
+    // Only users with a known role can open the admin panel.
+    admin: ({ req }) => isEditor(req.user),
     // The first user is created through Payload's register screen, which skips these checks.
     create: superAdminOnly,
     read: superAdminOrSelf,
