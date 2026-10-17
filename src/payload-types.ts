@@ -142,6 +142,757 @@ export interface Page {
    * URL of the page, same as the Webflow site. Examples: / and /custom-cutting/beef-cutting
    */
   path: string;
+  sections?:
+    | (
+        | {
+            title: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'internalHeader';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'sectionHeading';
+          }
+        | {
+            text: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'communityTagline';
+          }
+        | {
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'meatCutting';
+          }
+        | {
+            image1?: (number | null) | Media;
+            image2?: (number | null) | Media;
+            /**
+             * Animated letter by letter, e.g. "welcome to"
+             */
+            subtitle?: string | null;
+            title?: string | null;
+            text?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            button?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'homeHero';
+          }
+        | {
+            /**
+             * One line per row
+             */
+            communityHeading?: string | null;
+            stats?:
+              | {
+                  icon?: (number | null) | Media;
+                  number?: string | null;
+                  label?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            aboutHeading?: {
+              line1?: string | null;
+              /**
+               * Highlighted line
+               */
+              line2?: string | null;
+            };
+            leadText?: string | null;
+            text?: string | null;
+            button?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'homeIntro';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            intro?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            tabs?:
+              | {
+                  label: string;
+                  icon?: (number | null) | Media;
+                  items?:
+                    | {
+                        image?: (number | null) | Media;
+                        title?: string | null;
+                        url?: string | null;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+            button?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'homeMeatCuts';
+          }
+        | {
+            title?: string | null;
+            button?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            text?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'aboutIntro';
+          }
+        | {
+            left?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            right?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'aboutText';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            people?:
+              | {
+                  image?: (number | null) | Media;
+                  role?: string | null;
+                  name?: string | null;
+                  text?: string | null;
+                  button?: {
+                    label?: string | null;
+                    /**
+                     * Site path like /contact, or a full https:// address
+                     */
+                    url?: string | null;
+                  };
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'aboutCore';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            items?:
+              | {
+                  image?: (number | null) | Media;
+                  number?: string | null;
+                  title?: string | null;
+                  text?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            button?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'farmSlaughterPromo';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            logos?:
+              | {
+                  image?: (number | null) | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            button?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'awards';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            text?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            listColumns?:
+              | {
+                  items?:
+                    | {
+                        text: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+            closingText?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'categoryIntro';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            notice?: string | null;
+            cards?:
+              | {
+                  image?: (number | null) | Media;
+                  subtitle?: string | null;
+                  title?: string | null;
+                  /**
+                   * Bold line under the title, e.g. $150
+                   */
+                  priceNote?: string | null;
+                  rows?:
+                    | {
+                        label?: string | null;
+                        /**
+                         * Price or quantity
+                         */
+                        value?: string | null;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  label?: string | null;
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'packCards';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            items?:
+              | {
+                  image?: (number | null) | Media;
+                  subtitle?: string | null;
+                  title?: string | null;
+                  text?: {
+                    root: {
+                      type: string;
+                      children: {
+                        type: any;
+                        version: number;
+                        [k: string]: unknown;
+                      }[];
+                      direction: ('ltr' | 'rtl') | null;
+                      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                      indent: number;
+                      version: number;
+                    };
+                    [k: string]: unknown;
+                  } | null;
+                  label?: string | null;
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            backButton?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'subProducts';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            cards?:
+              | {
+                  image?: (number | null) | Media;
+                  title?: string | null;
+                  subtitle?: string | null;
+                  /**
+                   * One product per line
+                   */
+                  items?: string | null;
+                  label?: string | null;
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'charcuterieOfferings';
+          }
+        | {
+            slides?:
+              | {
+                  image?: (number | null) | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            title?: string | null;
+            text?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            backButton?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            inquiryButton?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'detailPage';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            cards?:
+              | {
+                  image?: (number | null) | Media;
+                  title?: string | null;
+                  subtitle?: string | null;
+                  label?: string | null;
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'mostViewed';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            cards?:
+              | {
+                  image?: (number | null) | Media;
+                  title?: string | null;
+                  label?: string | null;
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cuttingIntro';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            cards?:
+              | {
+                  image?: (number | null) | Media;
+                  subtitle?: string | null;
+                  title?: string | null;
+                  /**
+                   * Bold line under the title, e.g. $150
+                   */
+                  priceNote?: string | null;
+                  rows?:
+                    | {
+                        label?: string | null;
+                        /**
+                         * Price or quantity
+                         */
+                        value?: string | null;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  label?: string | null;
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            backButton?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cuttingPrices';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            cards?:
+              | {
+                  image?: (number | null) | Media;
+                  subtitle?: string | null;
+                  title?: string | null;
+                  /**
+                   * Bold line under the title, e.g. $150
+                   */
+                  priceNote?: string | null;
+                  rows?:
+                    | {
+                        label?: string | null;
+                        /**
+                         * Price or quantity
+                         */
+                        value?: string | null;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  label?: string | null;
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pricingGrid';
+          }
+        | {
+            number?: string | null;
+            title?: string | null;
+            text?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            image?: (number | null) | Media;
+            imageSide?: ('left' | 'right') | null;
+            callButton?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            inquiryButton?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'processStep';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            text?: string | null;
+            callButton?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            successMessage?: string | null;
+            errorMessage?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactIntro';
+          }
+        | {
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactDetails';
+          }
+        | {
+            latitude?: number | null;
+            longitude?: number | null;
+            zoom?: number | null;
+            /**
+             * Map pin tooltip
+             */
+            title?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactMap';
+          }
+        | {
+            heading?: {
+              subtitle?: string | null;
+              title?: string | null;
+              backgroundText?: string | null;
+            };
+            notice?: string | null;
+            items?:
+              | {
+                  image?: (number | null) | Media;
+                  title?: string | null;
+                  /**
+                   * e.g. 15
+                   */
+                  dollars?: string | null;
+                  /**
+                   * e.g. .80
+                   */
+                  cents?: string | null;
+                  /**
+                   * e.g. each
+                   */
+                  unit?: string | null;
+                  text?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            callButton?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'weeklySpecials';
+          }
+        | {
+            text?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            button?: {
+              label?: string | null;
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'specialsText';
+          }
+      )[]
+    | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -302,6 +1053,583 @@ export interface PayloadMigration {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   path?: T;
+  sections?:
+    | T
+    | {
+        internalHeader?:
+          | T
+          | {
+              title?: T;
+              id?: T;
+              blockName?: T;
+            };
+        sectionHeading?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        communityTagline?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+              blockName?: T;
+            };
+        meatCutting?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        homeHero?:
+          | T
+          | {
+              image1?: T;
+              image2?: T;
+              subtitle?: T;
+              title?: T;
+              text?: T;
+              button?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        homeIntro?:
+          | T
+          | {
+              communityHeading?: T;
+              stats?:
+                | T
+                | {
+                    icon?: T;
+                    number?: T;
+                    label?: T;
+                    id?: T;
+                  };
+              aboutHeading?:
+                | T
+                | {
+                    line1?: T;
+                    line2?: T;
+                  };
+              leadText?: T;
+              text?: T;
+              button?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        homeMeatCuts?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              intro?: T;
+              tabs?:
+                | T
+                | {
+                    label?: T;
+                    icon?: T;
+                    items?:
+                      | T
+                      | {
+                          image?: T;
+                          title?: T;
+                          url?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              button?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        aboutIntro?:
+          | T
+          | {
+              title?: T;
+              button?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              text?: T;
+              id?: T;
+              blockName?: T;
+            };
+        aboutText?:
+          | T
+          | {
+              left?: T;
+              right?: T;
+              id?: T;
+              blockName?: T;
+            };
+        aboutCore?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              people?:
+                | T
+                | {
+                    image?: T;
+                    role?: T;
+                    name?: T;
+                    text?: T;
+                    button?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        farmSlaughterPromo?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              items?:
+                | T
+                | {
+                    image?: T;
+                    number?: T;
+                    title?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              button?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        awards?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              logos?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              button?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        categoryIntro?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              text?: T;
+              listColumns?:
+                | T
+                | {
+                    items?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              closingText?: T;
+              id?: T;
+              blockName?: T;
+            };
+        packCards?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              notice?: T;
+              cards?:
+                | T
+                | {
+                    image?: T;
+                    subtitle?: T;
+                    title?: T;
+                    priceNote?: T;
+                    rows?:
+                      | T
+                      | {
+                          label?: T;
+                          value?: T;
+                          id?: T;
+                        };
+                    label?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        subProducts?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              items?:
+                | T
+                | {
+                    image?: T;
+                    subtitle?: T;
+                    title?: T;
+                    text?: T;
+                    label?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              backButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        charcuterieOfferings?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              cards?:
+                | T
+                | {
+                    image?: T;
+                    title?: T;
+                    subtitle?: T;
+                    items?: T;
+                    label?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        detailPage?:
+          | T
+          | {
+              slides?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              title?: T;
+              text?: T;
+              backButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              inquiryButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        mostViewed?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              cards?:
+                | T
+                | {
+                    image?: T;
+                    title?: T;
+                    subtitle?: T;
+                    label?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cuttingIntro?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              cards?:
+                | T
+                | {
+                    image?: T;
+                    title?: T;
+                    label?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cuttingPrices?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              cards?:
+                | T
+                | {
+                    image?: T;
+                    subtitle?: T;
+                    title?: T;
+                    priceNote?: T;
+                    rows?:
+                      | T
+                      | {
+                          label?: T;
+                          value?: T;
+                          id?: T;
+                        };
+                    label?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              backButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        pricingGrid?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              cards?:
+                | T
+                | {
+                    image?: T;
+                    subtitle?: T;
+                    title?: T;
+                    priceNote?: T;
+                    rows?:
+                      | T
+                      | {
+                          label?: T;
+                          value?: T;
+                          id?: T;
+                        };
+                    label?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        processStep?:
+          | T
+          | {
+              number?: T;
+              title?: T;
+              text?: T;
+              image?: T;
+              imageSide?: T;
+              callButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              inquiryButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        contactIntro?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              text?: T;
+              callButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              successMessage?: T;
+              errorMessage?: T;
+              id?: T;
+              blockName?: T;
+            };
+        contactDetails?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        contactMap?:
+          | T
+          | {
+              latitude?: T;
+              longitude?: T;
+              zoom?: T;
+              title?: T;
+              id?: T;
+              blockName?: T;
+            };
+        weeklySpecials?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T;
+                    title?: T;
+                    backgroundText?: T;
+                  };
+              notice?: T;
+              items?:
+                | T
+                | {
+                    image?: T;
+                    title?: T;
+                    dollars?: T;
+                    cents?: T;
+                    unit?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              callButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        specialsText?:
+          | T
+          | {
+              text?: T;
+              button?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
   meta?:
     | T
     | {

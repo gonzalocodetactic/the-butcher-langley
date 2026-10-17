@@ -15,8 +15,16 @@ export const ContactDetails: GlobalConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'phone', type: 'text', admin: { description: 'As displayed, e.g. (778) 705 - 1046' } },
-        { name: 'phoneLink', type: 'text', admin: { description: 'Dialable number, e.g. +17787051046' } },
+        {
+          name: 'phone',
+          type: 'text',
+          admin: { description: 'As displayed, e.g. (778) 705 - 1046' },
+        },
+        {
+          name: 'phoneLink',
+          type: 'text',
+          admin: { description: 'Dialable number, e.g. +17787051046' },
+        },
       ],
     },
     { name: 'email', type: 'email' },
@@ -28,7 +36,11 @@ export const ContactDetails: GlobalConfig = {
           type: 'row',
           fields: [
             { name: 'times', type: 'text', admin: { description: 'e.g. 10am - 6pm' } },
-            { name: 'days', type: 'text', admin: { description: 'Shown in bold, e.g. 7 days a week' } },
+            {
+              name: 'days',
+              type: 'text',
+              admin: { description: 'Shown in bold, e.g. 7 days a week' },
+            },
           ],
         },
       ],
