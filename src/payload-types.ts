@@ -59,261 +59,2077 @@ export type SupportedTimezones =
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
-  | 'Pacific/Fiji';
+  | 'Pacific/Fiji'
 
 export interface Config {
   auth: {
-    users: UserAuthOperations;
-  };
-  blocks: {};
+    users: UserAuthOperations
+  }
+  blocks: {}
   collections: {
-    users: User;
-    media: Media;
-    'payload-kv': PayloadKv;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
-  };
-  collectionsJoins: {};
+    pages: Page
+    media: Media
+    'form-submissions': FormSubmission
+    users: User
+    'payload-kv': PayloadKv
+    'payload-locked-documents': PayloadLockedDocument
+    'payload-preferences': PayloadPreference
+    'payload-migrations': PayloadMigration
+  }
+  collectionsJoins: {}
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
-    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
-  };
+    pages: PagesSelect<false> | PagesSelect<true>
+    media: MediaSelect<false> | MediaSelect<true>
+    'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>
+    users: UsersSelect<false> | UsersSelect<true>
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>
+    'payload-locked-documents':
+      PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>
+  }
   db: {
-    defaultIDType: string;
-  };
-  fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
-  locale: null;
+    defaultIDType: number
+  }
+  fallbackLocale: null
+  globals: {
+    navigation: Navigation
+    footer: Footer
+    'contact-details': ContactDetail
+    'meat-cutting': MeatCutting
+  }
+  globalsSelect: {
+    navigation: NavigationSelect<false> | NavigationSelect<true>
+    footer: FooterSelect<false> | FooterSelect<true>
+    'contact-details': ContactDetailsSelect<false> | ContactDetailsSelect<true>
+    'meat-cutting': MeatCuttingSelect<false> | MeatCuttingSelect<true>
+  }
+  locale: null
   widgets: {
-    collections: CollectionsWidget;
-  };
-  user: User;
+    collections: CollectionsWidget
+  }
+  user: User
   jobs: {
-    tasks: unknown;
-    workflows: unknown;
-  };
+    tasks: unknown
+    workflows: unknown
+  }
 }
 export interface UserAuthOperations {
   forgotPassword: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   login: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   registerFirstUser: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   unlock: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "pages".
  */
-export interface User {
-  id: string;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-  collection: 'users';
+export interface Page {
+  id: number
+  title: string
+  /**
+   * URL of the page, same as the Webflow site. Examples: / and /custom-cutting/beef-cutting
+   */
+  path: string
+  sections?:
+    | (
+        | {
+            title: string
+            id?: string | null
+            blockName?: string | null
+            blockType: 'internalHeader'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'sectionHeading'
+          }
+        | {
+            text: string
+            id?: string | null
+            blockName?: string | null
+            blockType: 'communityTagline'
+          }
+        | {
+            id?: string | null
+            blockName?: string | null
+            blockType: 'meatCutting'
+          }
+        | {
+            image1?: (number | null) | Media
+            image2?: (number | null) | Media
+            /**
+             * Animated letter by letter, e.g. "welcome to"
+             */
+            subtitle?: string | null
+            title?: string | null
+            text?: {
+              root: {
+                type: string
+                children: {
+                  type: any
+                  version: number
+                  [k: string]: unknown
+                }[]
+                direction: ('ltr' | 'rtl') | null
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+                indent: number
+                version: number
+              }
+              [k: string]: unknown
+            } | null
+            button?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'homeHero'
+          }
+        | {
+            /**
+             * One line per row
+             */
+            communityHeading?: string | null
+            stats?:
+              | {
+                  icon?: (number | null) | Media
+                  number?: string | null
+                  label?: string | null
+                  id?: string | null
+                }[]
+              | null
+            aboutHeading?: {
+              line1?: string | null
+              /**
+               * Highlighted line
+               */
+              line2?: string | null
+            }
+            leadText?: string | null
+            text?: string | null
+            button?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'homeIntro'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            intro?: {
+              root: {
+                type: string
+                children: {
+                  type: any
+                  version: number
+                  [k: string]: unknown
+                }[]
+                direction: ('ltr' | 'rtl') | null
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+                indent: number
+                version: number
+              }
+              [k: string]: unknown
+            } | null
+            tabs?:
+              | {
+                  label: string
+                  icon?: (number | null) | Media
+                  items?:
+                    | {
+                        image?: (number | null) | Media
+                        title?: string | null
+                        url?: string | null
+                        id?: string | null
+                      }[]
+                    | null
+                  id?: string | null
+                }[]
+              | null
+            button?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'homeMeatCuts'
+          }
+        | {
+            title?: string | null
+            button?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            text?: {
+              root: {
+                type: string
+                children: {
+                  type: any
+                  version: number
+                  [k: string]: unknown
+                }[]
+                direction: ('ltr' | 'rtl') | null
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+                indent: number
+                version: number
+              }
+              [k: string]: unknown
+            } | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'aboutIntro'
+          }
+        | {
+            left?: {
+              root: {
+                type: string
+                children: {
+                  type: any
+                  version: number
+                  [k: string]: unknown
+                }[]
+                direction: ('ltr' | 'rtl') | null
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+                indent: number
+                version: number
+              }
+              [k: string]: unknown
+            } | null
+            right?: {
+              root: {
+                type: string
+                children: {
+                  type: any
+                  version: number
+                  [k: string]: unknown
+                }[]
+                direction: ('ltr' | 'rtl') | null
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+                indent: number
+                version: number
+              }
+              [k: string]: unknown
+            } | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'aboutText'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            people?:
+              | {
+                  image?: (number | null) | Media
+                  role?: string | null
+                  name?: string | null
+                  text?: string | null
+                  button?: {
+                    label?: string | null
+                    /**
+                     * Site path like /contact, or a full https:// address
+                     */
+                    url?: string | null
+                  }
+                  id?: string | null
+                }[]
+              | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'aboutCore'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            items?:
+              | {
+                  image?: (number | null) | Media
+                  number?: string | null
+                  title?: string | null
+                  text?: string | null
+                  id?: string | null
+                }[]
+              | null
+            button?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'farmSlaughterPromo'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            logos?:
+              | {
+                  image?: (number | null) | Media
+                  id?: string | null
+                }[]
+              | null
+            button?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'awards'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            text?: {
+              root: {
+                type: string
+                children: {
+                  type: any
+                  version: number
+                  [k: string]: unknown
+                }[]
+                direction: ('ltr' | 'rtl') | null
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+                indent: number
+                version: number
+              }
+              [k: string]: unknown
+            } | null
+            listColumns?:
+              | {
+                  items?:
+                    | {
+                        text: string
+                        id?: string | null
+                      }[]
+                    | null
+                  id?: string | null
+                }[]
+              | null
+            closingText?: {
+              root: {
+                type: string
+                children: {
+                  type: any
+                  version: number
+                  [k: string]: unknown
+                }[]
+                direction: ('ltr' | 'rtl') | null
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+                indent: number
+                version: number
+              }
+              [k: string]: unknown
+            } | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'categoryIntro'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            notice?: string | null
+            cards?:
+              | {
+                  image?: (number | null) | Media
+                  subtitle?: string | null
+                  title?: string | null
+                  /**
+                   * Bold line under the title, e.g. $150
+                   */
+                  priceNote?: string | null
+                  rows?:
+                    | {
+                        label?: string | null
+                        /**
+                         * Price or quantity
+                         */
+                        value?: string | null
+                        id?: string | null
+                      }[]
+                    | null
+                  label?: string | null
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null
+                  id?: string | null
+                }[]
+              | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'packCards'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            items?:
+              | {
+                  image?: (number | null) | Media
+                  subtitle?: string | null
+                  title?: string | null
+                  text?: {
+                    root: {
+                      type: string
+                      children: {
+                        type: any
+                        version: number
+                        [k: string]: unknown
+                      }[]
+                      direction: ('ltr' | 'rtl') | null
+                      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+                      indent: number
+                      version: number
+                    }
+                    [k: string]: unknown
+                  } | null
+                  label?: string | null
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null
+                  id?: string | null
+                }[]
+              | null
+            backButton?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'subProducts'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            cards?:
+              | {
+                  image?: (number | null) | Media
+                  title?: string | null
+                  subtitle?: string | null
+                  /**
+                   * One product per line
+                   */
+                  items?: string | null
+                  label?: string | null
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null
+                  id?: string | null
+                }[]
+              | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'charcuterieOfferings'
+          }
+        | {
+            slides?:
+              | {
+                  image?: (number | null) | Media
+                  id?: string | null
+                }[]
+              | null
+            title?: string | null
+            text?: {
+              root: {
+                type: string
+                children: {
+                  type: any
+                  version: number
+                  [k: string]: unknown
+                }[]
+                direction: ('ltr' | 'rtl') | null
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+                indent: number
+                version: number
+              }
+              [k: string]: unknown
+            } | null
+            backButton?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            inquiryButton?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'detailPage'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            cards?:
+              | {
+                  image?: (number | null) | Media
+                  title?: string | null
+                  subtitle?: string | null
+                  label?: string | null
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null
+                  id?: string | null
+                }[]
+              | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'mostViewed'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            cards?:
+              | {
+                  image?: (number | null) | Media
+                  title?: string | null
+                  label?: string | null
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null
+                  id?: string | null
+                }[]
+              | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'cuttingIntro'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            cards?:
+              | {
+                  image?: (number | null) | Media
+                  subtitle?: string | null
+                  title?: string | null
+                  /**
+                   * Bold line under the title, e.g. $150
+                   */
+                  priceNote?: string | null
+                  rows?:
+                    | {
+                        label?: string | null
+                        /**
+                         * Price or quantity
+                         */
+                        value?: string | null
+                        id?: string | null
+                      }[]
+                    | null
+                  label?: string | null
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null
+                  id?: string | null
+                }[]
+              | null
+            backButton?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'cuttingPrices'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            cards?:
+              | {
+                  image?: (number | null) | Media
+                  subtitle?: string | null
+                  title?: string | null
+                  /**
+                   * Bold line under the title, e.g. $150
+                   */
+                  priceNote?: string | null
+                  rows?:
+                    | {
+                        label?: string | null
+                        /**
+                         * Price or quantity
+                         */
+                        value?: string | null
+                        id?: string | null
+                      }[]
+                    | null
+                  label?: string | null
+                  /**
+                   * Site path like /contact, or a full https:// address
+                   */
+                  url?: string | null
+                  id?: string | null
+                }[]
+              | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'pricingGrid'
+          }
+        | {
+            number?: string | null
+            title?: string | null
+            text?: {
+              root: {
+                type: string
+                children: {
+                  type: any
+                  version: number
+                  [k: string]: unknown
+                }[]
+                direction: ('ltr' | 'rtl') | null
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+                indent: number
+                version: number
+              }
+              [k: string]: unknown
+            } | null
+            image?: (number | null) | Media
+            imageSide?: ('left' | 'right') | null
+            callButton?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            inquiryButton?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'processStep'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            text?: string | null
+            callButton?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            successMessage?: string | null
+            errorMessage?: string | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'contactIntro'
+          }
+        | {
+            id?: string | null
+            blockName?: string | null
+            blockType: 'contactDetails'
+          }
+        | {
+            latitude?: number | null
+            longitude?: number | null
+            zoom?: number | null
+            /**
+             * Map pin tooltip
+             */
+            title?: string | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'contactMap'
+          }
+        | {
+            heading?: {
+              subtitle?: string | null
+              title?: string | null
+              backgroundText?: string | null
+            }
+            notice?: string | null
+            items?:
+              | {
+                  image?: (number | null) | Media
+                  title?: string | null
+                  /**
+                   * e.g. 15
+                   */
+                  dollars?: string | null
+                  /**
+                   * e.g. .80
+                   */
+                  cents?: string | null
+                  /**
+                   * e.g. each
+                   */
+                  unit?: string | null
+                  text?: string | null
+                  id?: string | null
+                }[]
+              | null
+            callButton?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'weeklySpecials'
+          }
+        | {
+            text?: {
+              root: {
+                type: string
+                children: {
+                  type: any
+                  version: number
+                  [k: string]: unknown
+                }[]
+                direction: ('ltr' | 'rtl') | null
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+                indent: number
+                version: number
+              }
+              [k: string]: unknown
+            } | null
+            button?: {
+              label?: string | null
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url?: string | null
+            }
+            id?: string | null
+            blockName?: string | null
+            blockType: 'specialsText'
+          }
+      )[]
+    | null
+  meta?: {
+    title?: string | null
+    description?: string | null
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media
+  }
+  updatedAt: string
+  createdAt: string
+  _status?: ('draft' | 'published') | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
+  id: number
+  alt: string
+  updatedAt: string
+  createdAt: string
+  url?: string | null
+  thumbnailURL?: string | null
+  filename?: string | null
+  mimeType?: string | null
+  filesize?: number | null
+  width?: number | null
+  height?: number | null
+  focalX?: number | null
+  focalY?: number | null
+  sizes?: {
+    w500?: {
+      url?: string | null
+      width?: number | null
+      height?: number | null
+      mimeType?: string | null
+      filesize?: number | null
+      filename?: string | null
+    }
+    w800?: {
+      url?: string | null
+      width?: number | null
+      height?: number | null
+      mimeType?: string | null
+      filesize?: number | null
+      filename?: string | null
+    }
+    w1080?: {
+      url?: string | null
+      width?: number | null
+      height?: number | null
+      mimeType?: string | null
+      filesize?: number | null
+      filename?: string | null
+    }
+    w1600?: {
+      url?: string | null
+      width?: number | null
+      height?: number | null
+      mimeType?: string | null
+      filesize?: number | null
+      filename?: string | null
+    }
+  }
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface FormSubmission {
+  id: number
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  message?: string | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number
+  role: 'superAdmin' | 'client'
+  updatedAt: string
+  createdAt: string
+  email: string
+  resetPasswordToken?: string | null
+  resetPasswordExpiration?: string | null
+  salt?: string | null
+  hash?: string | null
+  resetPasswordRequestedAt?: string | null
+  loginAttempts?: number | null
+  lockUntil?: string | null
+  sessions?:
+    | {
+        id: string
+        createdAt?: string | null
+        expiresAt: string
+      }[]
+    | null
+  password?: string | null
+  collection: 'users'
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
-  key: string;
+  id: number
+  key: string
   data:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number
   document?:
     | ({
-        relationTo: 'users';
-        value: string | User;
+        relationTo: 'pages'
+        value: number | Page
       } | null)
     | ({
-        relationTo: 'media';
-        value: string | Media;
-      } | null);
-  globalSlug?: string | null;
+        relationTo: 'media'
+        value: number | Media
+      } | null)
+    | ({
+        relationTo: 'form-submissions'
+        value: number | FormSubmission
+      } | null)
+    | ({
+        relationTo: 'users'
+        value: number | User
+      } | null)
+  globalSlug?: string | null
   user: {
-    relationTo: 'users';
-    value: string | User;
-  };
-  updatedAt: string;
-  createdAt: string;
+    relationTo: 'users'
+    value: number | User
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number
   user: {
-    relationTo: 'users';
-    value: string | User;
-  };
-  key?: string | null;
+    relationTo: 'users'
+    value: number | User
+  }
+  key?: string | null
   value?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
-  name?: string | null;
-  batch?: number | null;
-  updatedAt: string;
-  createdAt: string;
+  id: number
+  name?: string | null
+  batch?: number | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "pages_select".
  */
-export interface UsersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
+export interface PagesSelect<T extends boolean = true> {
+  title?: T
+  path?: T
+  sections?:
     | T
     | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
+        internalHeader?:
+          | T
+          | {
+              title?: T
+              id?: T
+              blockName?: T
+            }
+        sectionHeading?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        communityTagline?:
+          | T
+          | {
+              text?: T
+              id?: T
+              blockName?: T
+            }
+        meatCutting?:
+          | T
+          | {
+              id?: T
+              blockName?: T
+            }
+        homeHero?:
+          | T
+          | {
+              image1?: T
+              image2?: T
+              subtitle?: T
+              title?: T
+              text?: T
+              button?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        homeIntro?:
+          | T
+          | {
+              communityHeading?: T
+              stats?:
+                | T
+                | {
+                    icon?: T
+                    number?: T
+                    label?: T
+                    id?: T
+                  }
+              aboutHeading?:
+                | T
+                | {
+                    line1?: T
+                    line2?: T
+                  }
+              leadText?: T
+              text?: T
+              button?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        homeMeatCuts?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              intro?: T
+              tabs?:
+                | T
+                | {
+                    label?: T
+                    icon?: T
+                    items?:
+                      | T
+                      | {
+                          image?: T
+                          title?: T
+                          url?: T
+                          id?: T
+                        }
+                    id?: T
+                  }
+              button?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        aboutIntro?:
+          | T
+          | {
+              title?: T
+              button?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              text?: T
+              id?: T
+              blockName?: T
+            }
+        aboutText?:
+          | T
+          | {
+              left?: T
+              right?: T
+              id?: T
+              blockName?: T
+            }
+        aboutCore?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              people?:
+                | T
+                | {
+                    image?: T
+                    role?: T
+                    name?: T
+                    text?: T
+                    button?:
+                      | T
+                      | {
+                          label?: T
+                          url?: T
+                        }
+                    id?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        farmSlaughterPromo?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              items?:
+                | T
+                | {
+                    image?: T
+                    number?: T
+                    title?: T
+                    text?: T
+                    id?: T
+                  }
+              button?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        awards?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              logos?:
+                | T
+                | {
+                    image?: T
+                    id?: T
+                  }
+              button?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        categoryIntro?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              text?: T
+              listColumns?:
+                | T
+                | {
+                    items?:
+                      | T
+                      | {
+                          text?: T
+                          id?: T
+                        }
+                    id?: T
+                  }
+              closingText?: T
+              id?: T
+              blockName?: T
+            }
+        packCards?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              notice?: T
+              cards?:
+                | T
+                | {
+                    image?: T
+                    subtitle?: T
+                    title?: T
+                    priceNote?: T
+                    rows?:
+                      | T
+                      | {
+                          label?: T
+                          value?: T
+                          id?: T
+                        }
+                    label?: T
+                    url?: T
+                    id?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        subProducts?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              items?:
+                | T
+                | {
+                    image?: T
+                    subtitle?: T
+                    title?: T
+                    text?: T
+                    label?: T
+                    url?: T
+                    id?: T
+                  }
+              backButton?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        charcuterieOfferings?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              cards?:
+                | T
+                | {
+                    image?: T
+                    title?: T
+                    subtitle?: T
+                    items?: T
+                    label?: T
+                    url?: T
+                    id?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        detailPage?:
+          | T
+          | {
+              slides?:
+                | T
+                | {
+                    image?: T
+                    id?: T
+                  }
+              title?: T
+              text?: T
+              backButton?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              inquiryButton?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        mostViewed?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              cards?:
+                | T
+                | {
+                    image?: T
+                    title?: T
+                    subtitle?: T
+                    label?: T
+                    url?: T
+                    id?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        cuttingIntro?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              cards?:
+                | T
+                | {
+                    image?: T
+                    title?: T
+                    label?: T
+                    url?: T
+                    id?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        cuttingPrices?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              cards?:
+                | T
+                | {
+                    image?: T
+                    subtitle?: T
+                    title?: T
+                    priceNote?: T
+                    rows?:
+                      | T
+                      | {
+                          label?: T
+                          value?: T
+                          id?: T
+                        }
+                    label?: T
+                    url?: T
+                    id?: T
+                  }
+              backButton?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        pricingGrid?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              cards?:
+                | T
+                | {
+                    image?: T
+                    subtitle?: T
+                    title?: T
+                    priceNote?: T
+                    rows?:
+                      | T
+                      | {
+                          label?: T
+                          value?: T
+                          id?: T
+                        }
+                    label?: T
+                    url?: T
+                    id?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        processStep?:
+          | T
+          | {
+              number?: T
+              title?: T
+              text?: T
+              image?: T
+              imageSide?: T
+              callButton?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              inquiryButton?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        contactIntro?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              text?: T
+              callButton?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              successMessage?: T
+              errorMessage?: T
+              id?: T
+              blockName?: T
+            }
+        contactDetails?:
+          | T
+          | {
+              id?: T
+              blockName?: T
+            }
+        contactMap?:
+          | T
+          | {
+              latitude?: T
+              longitude?: T
+              zoom?: T
+              title?: T
+              id?: T
+              blockName?: T
+            }
+        weeklySpecials?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    subtitle?: T
+                    title?: T
+                    backgroundText?: T
+                  }
+              notice?: T
+              items?:
+                | T
+                | {
+                    image?: T
+                    title?: T
+                    dollars?: T
+                    cents?: T
+                    unit?: T
+                    text?: T
+                    id?: T
+                  }
+              callButton?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        specialsText?:
+          | T
+          | {
+              text?: T
+              button?:
+                | T
+                | {
+                    label?: T
+                    url?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+      }
+  meta?:
+    | T
+    | {
+        title?: T
+        description?: T
+        image?: T
+      }
+  updatedAt?: T
+  createdAt?: T
+  _status?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
+  alt?: T
+  updatedAt?: T
+  createdAt?: T
+  url?: T
+  thumbnailURL?: T
+  filename?: T
+  mimeType?: T
+  filesize?: T
+  width?: T
+  height?: T
+  focalX?: T
+  focalY?: T
+  sizes?:
+    | T
+    | {
+        w500?:
+          | T
+          | {
+              url?: T
+              width?: T
+              height?: T
+              mimeType?: T
+              filesize?: T
+              filename?: T
+            }
+        w800?:
+          | T
+          | {
+              url?: T
+              width?: T
+              height?: T
+              mimeType?: T
+              filesize?: T
+              filename?: T
+            }
+        w1080?:
+          | T
+          | {
+              url?: T
+              width?: T
+              height?: T
+              mimeType?: T
+              filesize?: T
+              filename?: T
+            }
+        w1600?:
+          | T
+          | {
+              url?: T
+              width?: T
+              height?: T
+              mimeType?: T
+              filesize?: T
+              filename?: T
+            }
+      }
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions_select".
+ */
+export interface FormSubmissionsSelect<T extends boolean = true> {
+  firstName?: T
+  lastName?: T
+  email?: T
+  phone?: T
+  message?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  role?: T
+  updatedAt?: T
+  createdAt?: T
+  email?: T
+  resetPasswordToken?: T
+  resetPasswordExpiration?: T
+  salt?: T
+  hash?: T
+  resetPasswordRequestedAt?: T
+  loginAttempts?: T
+  lockUntil?: T
+  sessions?:
+    | T
+    | {
+        id?: T
+        createdAt?: T
+        expiresAt?: T
+      }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
-  key?: T;
-  data?: T;
+  key?: T
+  data?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T;
-  globalSlug?: T;
-  user?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  document?: T
+  globalSlug?: T
+  user?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences_select".
  */
 export interface PayloadPreferencesSelect<T extends boolean = true> {
-  user?: T;
-  key?: T;
-  value?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  user?: T
+  key?: T
+  value?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations_select".
  */
 export interface PayloadMigrationsSelect<T extends boolean = true> {
-  name?: T;
-  batch?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  batch?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation".
+ */
+export interface Navigation {
+  id: number
+  logo?: (number | null) | Media
+  desktopLeft?:
+    | {
+        type?: ('link' | 'dropdown') | null
+        label: string
+        url?: string | null
+        links?:
+          | {
+              label: string
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url: string
+              id?: string | null
+            }[]
+          | null
+        id?: string | null
+      }[]
+    | null
+  desktopRight?:
+    | {
+        type?: ('link' | 'dropdown') | null
+        label: string
+        url?: string | null
+        links?:
+          | {
+              label: string
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url: string
+              id?: string | null
+            }[]
+          | null
+        id?: string | null
+      }[]
+    | null
+  mobileLinks?:
+    | {
+        label: string
+        /**
+         * Site path like /contact, or a full https:// address
+         */
+        url: string
+        id?: string | null
+      }[]
+    | null
+  _status?: ('draft' | 'published') | null
+  updatedAt?: string | null
+  createdAt?: string | null
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number
+  logo?: (number | null) | Media
+  contactHeading?: string | null
+  columns?:
+    | {
+        heading: string
+        /**
+         * Leave empty to use the same heading
+         */
+        homeHeading?: string | null
+        links?:
+          | {
+              label: string
+              /**
+               * Site path like /contact, or a full https:// address
+               */
+              url: string
+              id?: string | null
+            }[]
+          | null
+        id?: string | null
+      }[]
+    | null
+  copyright?: string | null
+  credit?: {
+    label?: string | null
+    /**
+     * Site path like /contact, or a full https:// address
+     */
+    url?: string | null
+  }
+  _status?: ('draft' | 'published') | null
+  updatedAt?: string | null
+  createdAt?: string | null
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-details".
+ */
+export interface ContactDetail {
+  id: number
+  /**
+   * One line per row, as shown on the site
+   */
+  address?: string | null
+  /**
+   * As displayed, e.g. (778) 705 - 1046
+   */
+  phone?: string | null
+  /**
+   * Dialable number, e.g. +17787051046
+   */
+  phoneLink?: string | null
+  email?: string | null
+  hours?: {
+    /**
+     * e.g. 10am - 6pm
+     */
+    times?: string | null
+    /**
+     * Shown in bold, e.g. 7 days a week
+     */
+    days?: string | null
+  }
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  _status?: ('draft' | 'published') | null
+  updatedAt?: string | null
+  createdAt?: string | null
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "meat-cutting".
+ */
+export interface MeatCutting {
+  id: number
+  feature?: {
+    image?: (number | null) | Media
+    number?: string | null
+    label?: string | null
+  }
+  subtitle?: string | null
+  title?: string | null
+  backgroundText?: string | null
+  text?: string | null
+  stats?:
+    | {
+        number?: string | null
+        label?: string | null
+        id?: string | null
+      }[]
+    | null
+  callButton?: {
+    label?: string | null
+    /**
+     * Site path like /contact, or a full https:// address
+     */
+    url?: string | null
+  }
+  inquiryButton?: {
+    label?: string | null
+    /**
+     * Site path like /contact, or a full https:// address
+     */
+    url?: string | null
+  }
+  _status?: ('draft' | 'published') | null
+  updatedAt?: string | null
+  createdAt?: string | null
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation_select".
+ */
+export interface NavigationSelect<T extends boolean = true> {
+  logo?: T
+  desktopLeft?:
+    | T
+    | {
+        type?: T
+        label?: T
+        url?: T
+        links?:
+          | T
+          | {
+              label?: T
+              url?: T
+              id?: T
+            }
+        id?: T
+      }
+  desktopRight?:
+    | T
+    | {
+        type?: T
+        label?: T
+        url?: T
+        links?:
+          | T
+          | {
+              label?: T
+              url?: T
+              id?: T
+            }
+        id?: T
+      }
+  mobileLinks?:
+    | T
+    | {
+        label?: T
+        url?: T
+        id?: T
+      }
+  _status?: T
+  updatedAt?: T
+  createdAt?: T
+  globalType?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  logo?: T
+  contactHeading?: T
+  columns?:
+    | T
+    | {
+        heading?: T
+        homeHeading?: T
+        links?:
+          | T
+          | {
+              label?: T
+              url?: T
+              id?: T
+            }
+        id?: T
+      }
+  copyright?: T
+  credit?:
+    | T
+    | {
+        label?: T
+        url?: T
+      }
+  _status?: T
+  updatedAt?: T
+  createdAt?: T
+  globalType?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-details_select".
+ */
+export interface ContactDetailsSelect<T extends boolean = true> {
+  address?: T
+  phone?: T
+  phoneLink?: T
+  email?: T
+  hours?:
+    | T
+    | {
+        times?: T
+        days?: T
+      }
+  facebookUrl?: T
+  instagramUrl?: T
+  _status?: T
+  updatedAt?: T
+  createdAt?: T
+  globalType?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "meat-cutting_select".
+ */
+export interface MeatCuttingSelect<T extends boolean = true> {
+  feature?:
+    | T
+    | {
+        image?: T
+        number?: T
+        label?: T
+      }
+  subtitle?: T
+  title?: T
+  backgroundText?: T
+  text?: T
+  stats?:
+    | T
+    | {
+        number?: T
+        label?: T
+        id?: T
+      }
+  callButton?:
+    | T
+    | {
+        label?: T
+        url?: T
+      }
+  inquiryButton?:
+    | T
+    | {
+        label?: T
+        url?: T
+      }
+  _status?: T
+  updatedAt?: T
+  createdAt?: T
+  globalType?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -321,18 +2137,17 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface CollectionsWidget {
   data?: {
-    [k: string]: unknown;
-  };
-  width: 'full';
+    [k: string]: unknown
+  }
+  width: 'full'
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
-  [k: string]: unknown;
+  [k: string]: unknown
 }
-
 
 declare module 'payload' {
   export interface GeneratedTypes extends Config {}

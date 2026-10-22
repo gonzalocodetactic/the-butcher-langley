@@ -5,17 +5,22 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "ci": "cross-env NODE_OPTIONS=--no-deprecation payload migrate && npm run build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
+    "migrate:create": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:create"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.91.0",
     "@payloadcms/email-resend": "3.91.0",
+    "@payloadcms/live-preview-react": "3.91.0",
     "@payloadcms/next": "3.91.0",
+    "@payloadcms/plugin-seo": "3.91.0",
     "@payloadcms/richtext-lexical": "3.91.0",
     "@payloadcms/storage-vercel-blob": "3.91.0",
     "@payloadcms/ui": "3.91.0",
@@ -32,9 +37,11 @@
     "@types/node": "22.19.9",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "cheerio": "^1.0.0",
     "eslint": "^9.16.0",
     "eslint-config-next": "16.4.2",
     "prettier": "^3.4.2",
+    "tsx": "^4.23.15",
     "typescript": "5.7.3"
   },
   "engines": {

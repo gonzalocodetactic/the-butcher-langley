@@ -1,9 +1,15 @@
 import type { CollectionConfig } from 'payload'
 
+import { editors, publicRead, superAdminOnly } from '../access/roles'
+
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {
-    read: () => true,
+    read: publicRead,
+    create: editors,
+    update: editors,
+    // Deleting a file breaks every page that still uses it, so only Super Admins can.
+    delete: superAdminOnly,
   },
   fields: [
     {
@@ -12,5 +18,14 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  // Resized copies with the widths Webflow made, so pages can offer phones smaller files.
+  upload: {
+    imageSizes: [500, 800, 1080, 1600].map((width) => ({
+      name: `w${width}`,
+      width,
+      // Pictures narrower than this keep their size instead of being stretched.
+      withoutEnlargement: true,
+    })),
+    adminThumbnail: 'w500',
+  },
 }
